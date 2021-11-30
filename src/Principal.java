@@ -11,10 +11,10 @@ public class Principal {
         int opcion = 0;
 
         //Registros de prueba para testeo
-        agenda.put("Prueba1", new Contacto("Nico","Bau",482,49,7, 341, 623));
-        agenda.put("Prueba2", new Contacto("Mario","Beron",482,49, 7));
+        agenda.put("Prueba1", new Contacto("Nico","Bau",488,482,7, 341, 623));
+        agenda.put("Prueba2", new Contacto("Mario","Beron",48,49, 7));
         agenda.put("Prueba3", new Contacto("Jorge","Cardozo",482));
-        agenda.put("Prueba4", new Contacto("Marta","Martel",482,49));
+        agenda.put("Prueba4", new Contacto("Marta","Martel",4,49));
         //Registros de prueba para testeo
 
         System.out.println("Bienvenido a la agenda telefonica!!");
@@ -224,6 +224,60 @@ public class Principal {
     }
 
     public static void Buscar() {
+        String parambusq;
+        int intbusq, numreg;
 
+        numreg = 1;
+
+        System.out.println("Ingrese algun parametro de busqueda: ");
+        in.nextLine();
+        parambusq = in.nextLine();
+        if (agenda.containsKey(parambusq)) {
+            System.out.println("Se ha encontrado el siguiente registro: " + agenda.get(parambusq).toString());
+        } else if (esINT(parambusq)) {
+            intbusq = Integer.parseInt(parambusq);
+            for (Object key : agenda.keySet()) {
+                if (agenda.get(key).getCasa() == intbusq) {
+                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    numreg++;
+                } else if (agenda.get(key).getTrabajo() == intbusq) {
+                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    numreg++;
+                } else if (agenda.get(key).getCelular() == intbusq) {
+                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    numreg++;
+                } else if (agenda.get(key).getOtro1() == intbusq) {
+                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    numreg++;
+                } else if (agenda.get(key).getOtro2() == intbusq) {
+                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    numreg++;
+                }
+            }
+        } else if (!esINT(parambusq)) {
+            for (Object key : agenda.keySet()) {
+                if (agenda.get(key).getNombre().equals(parambusq)) {
+                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    numreg++;
+                } else if (agenda.get(key).getApellido().equals(parambusq)) {
+                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    numreg++;
+                }
+            }
+        } else {
+            System.out.println("No se han encontrado coincidencias. Revise mayusculas en nombres propios o codigo unico");
+        }
+    }
+
+    public static boolean esINT(String ingreso) {
+        if (ingreso == null) {
+            return false;
+        }
+        try {
+            int i = Integer.parseInt(ingreso);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }
