@@ -110,14 +110,12 @@ public class Contacto {
 
     @Override
     public String toString() {
-        return "Contacto{" +
-                "nombre='" + nombre + '\'' +
+        return  "nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", casa=" + casa +
                 ", celular=" + celular +
                 ", trabajo=" + trabajo +
                 ", otro1=" + otro1 +
-                ", otro2=" + otro2 +
-                '}';
+                ", otro2=" + otro2;
     }
 }

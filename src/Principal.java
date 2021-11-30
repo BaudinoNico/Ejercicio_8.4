@@ -10,18 +10,20 @@ public class Principal {
     public static void main(String[] args) {
         int opcion = 0;
 
-        //Registros de prueba para testeo
+        //Registros de prueba para testeo. Prueba distintos constructures y repite datos en campos distintos para testear motor de busqueda
         agenda.put("Prueba1", new Contacto("Nico","Bau",488,482,7, 341, 623));
         agenda.put("Prueba2", new Contacto("Mario","Beron",48,49, 7));
         agenda.put("Prueba3", new Contacto("Jorge","Cardozo",482));
         agenda.put("Prueba4", new Contacto("Marta","Martel",4,49));
+        agenda.put("Prueba5", new Contacto("Lara","Martel",4,432222));
         //Registros de prueba para testeo
 
         System.out.println("Bienvenido a la agenda telefonica!!");
 
         while (opcion != 5) {
         try {
-            System.out.println("Ingrese una opción y presione enter" + '\n');
+            System.out.println('\n' + " -----> La agenda contiene " + agenda.size() + " registros");
+            System.out.println('\n' + "Ingrese una opción y presione enter" + '\n');
             System.out.println(
                             "1. Ingresar nuevo contacto\n" +
                             "2. Eliminar contacto\n" +
@@ -32,26 +34,14 @@ public class Principal {
             opcion = in.nextInt();
             System.out.println('\n' + "Seleccionaste la opción " + opcion);
 
-        switch (opcion) {
-            case 1:
-                Agregar();
-                break;
-            case 2:
-                Eliminar();
-                break;
-            case 3:
-                Modificar();
-                break;
-            case 4:
-                Buscar();
-                break;
-            case 5:
-                System.out.println('\n' + "Saliendo, hasta luego!");
-                break;
-            default:
-                System.out.println("Opcion invalida, intente nuevamente" + '\n');
-                break;
-        }
+            switch (opcion) {
+                case 1 -> Agregar();
+                case 2 -> Eliminar();
+                case 3 -> Modificar();
+                case 4 -> Buscar();
+                case 5 -> System.out.println('\n' + "Saliendo, hasta luego!");
+                default -> System.out.println("Opcion invalida, intente nuevamente" + '\n');
+            }
         } catch (Exception e) {
             System.out.println("La opcion debe ser un numero entero. Intente nuevamente" + '\n');
             in.nextLine();
@@ -122,9 +112,7 @@ public class Principal {
     public static void Modificar() {
         String busq, dato;
         int opcion, nume;
-        boolean bandera;
 
-        bandera = true;
         opcion = 0;
 
         System.out.println("Ingrese el identificador del contacto a modificar ");
@@ -134,7 +122,6 @@ public class Principal {
         if (agenda.containsKey(busq)) {
             System.out.println("Se modificara el contacto " + agenda.get(busq).getNombre() + " " + agenda.get(busq).getApellido());
             System.out.println("Los datos contenidos son: " + agenda.get(busq).toString());
-          //  System.out.println("Elija el dato que desea modificar o presione 8 para volver al menu: ");
             while (opcion != 8) {
                 try {
                     System.out.println("Ingrese el dato que desea modificar y presione enter" + '\n');
@@ -227,44 +214,53 @@ public class Principal {
         String parambusq;
         int intbusq, numreg;
 
-        numreg = 1;
+        numreg = 1; //Variable para indizar los resultados.
 
         System.out.println("Ingrese algun parametro de busqueda: ");
         in.nextLine();
         parambusq = in.nextLine();
+
+        System.out.println("Resultado de la busqueda: " + '\n');
+
+        //Prueba si la entrada es identificador (key).
         if (agenda.containsKey(parambusq)) {
-            System.out.println("Se ha encontrado el siguiente registro: " + agenda.get(parambusq).toString());
+            System.out.println(numreg + " - Identificador: " + parambusq + " --- Detalles: " + agenda.get(parambusq).toString());
+            numreg++;
+        //Si no es, verifica si es un numero, si es, busca en todos los registros por coincidencia en algun telefono almacenado
         } else if (esINT(parambusq)) {
             intbusq = Integer.parseInt(parambusq);
             for (Object key : agenda.keySet()) {
                 if (agenda.get(key).getCasa() == intbusq) {
-                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    System.out.println(numreg + " - Identificador: " + key + " --- Detalles: " + agenda.get(key).toString());
                     numreg++;
                 } else if (agenda.get(key).getTrabajo() == intbusq) {
-                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    System.out.println(numreg + " - Identificador: " + key + " --- Detalles: " + agenda.get(key).toString());
                     numreg++;
                 } else if (agenda.get(key).getCelular() == intbusq) {
-                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    System.out.println(numreg + " - Identificador: " + key + " --- Detalles: " + agenda.get(key).toString());
                     numreg++;
                 } else if (agenda.get(key).getOtro1() == intbusq) {
-                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    System.out.println(numreg + " - Identificador: " + key + " --- Detalles: " + agenda.get(key).toString());
                     numreg++;
                 } else if (agenda.get(key).getOtro2() == intbusq) {
-                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    System.out.println(numreg + " - Identificador: " + key + " --- Detalles: " + agenda.get(key).toString());
                     numreg++;
                 }
             }
+        //Si es string, busca en todos los registros por coincidencia en nombre o apellido
         } else if (!esINT(parambusq)) {
             for (Object key : agenda.keySet()) {
                 if (agenda.get(key).getNombre().equals(parambusq)) {
-                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    System.out.println(numreg + " - Identificador: " + key + " --- Detalles: " + agenda.get(key).toString());
                     numreg++;
                 } else if (agenda.get(key).getApellido().equals(parambusq)) {
-                    System.out.println(numreg + " - Se ha encontrado el siguiente registro: " + agenda.get(key).toString());
+                    System.out.println(numreg + " - Identificador: " + key + " --- Detalles: " + agenda.get(key).toString());
                     numreg++;
                 }
             }
-        } else {
+        }
+        //Si el contador de registros encontrados no vario, no se ha encontrado ningun registro
+        if (numreg==1){
             System.out.println("No se han encontrado coincidencias. Revise mayusculas en nombres propios o codigo unico");
         }
     }
@@ -280,4 +276,5 @@ public class Principal {
         }
         return true;
     }
+
 }
